@@ -71,6 +71,14 @@
     [self runTest:@"testRegisterBogusSoup"];
 }
 
+- (void)testRegisterSoupWithSpec {
+    [self runTest:@"testRegisterSoupWithSpec"];
+}
+
+- (void)testGetSoupSpec {
+    [self runTest:@"testGetSoupSpec"];
+}
+
 - (void) testRegisterSoupNoIndices {
     [self runTest:@"testRegisterSoupNoIndices"];
 }

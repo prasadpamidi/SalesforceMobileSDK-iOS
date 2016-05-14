@@ -335,6 +335,22 @@ NSString * const kIsGlobalStoreArg    = @"isGlobalStore";
     } command:command];
 }
 
+- (void)pgGetSoupSpec:(CDVInvokedUrlCommand *)command {
+    [self runCommand:^(NSDictionary* argsDict) {
+        NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
+        
+        [self log:SFLogLevelDebug format:@"pgGetSoupSpec with soup name: %@", soupName];
+        
+        BOOL exists = [[self getStoreInst:argsDict] soupExists:soupName];
+        if (exists) {
+            SFSoupSpec *soupSpec = [[self getStoreInst:argsDict] attributesForSoup:soupName];
+            return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:[soupSpec asDictionary]];
+        } else {
+            return [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"INVALID SOUP NAME"];
+        }
+    } command:command];
+}
+
 - (SFSmartStore *)getStoreInst:(NSDictionary *)args
 {
     return ([self isGlobal:args] ? self.globalStore : self.store);
